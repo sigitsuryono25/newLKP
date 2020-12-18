@@ -1,0 +1,55 @@
+# RewriteEngine on
+# RewriteCond $1 !^(index\.php|resources|robots\.txt)
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php/$1 [L,QSA] 
+
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\. [OR]
+RewriteCond %{HTTP_HOST} ^lkp-unikom\.com$ [NC]
+# RewriteRule ^ https://www.lauwba.com%{REQUEST_URI} [R=301,L,NE]
+RewriteCond %{THE_REQUEST} ^[A-Z]+\ /index\.php(/[^\ ]*)?\ HTTP/ 
+RewriteRule ^index\.php(/(.*))?$ lkp-unikom.com/$2 [R=301,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA] 
+
+<IfModule mod_headers.c>
+  Header unset Pragma
+  FileETag None
+  Header unset ETag
+  ExpiresActive On
+
+#   ##### DYNAMIC PAGES
+#   <FilesMatch "\\.(*)$">
+#     Header set Cache-Control "public, max-age=3600, must-revalidate"
+#   </FilesMatch>
+
+#   ##### STATIC FILES
+#   <FilesMatch "\\.(png|svg|swf|js|xml)$">
+#     Header set Cache-Control "public, max-age=604800, must-revalidate"
+# </FilesMatch>
+
+# ##### ETERNAL FILES
+# <FilesMatch "\\.(ico|jpg|gif|ttf|eot|pdf|flv|cur)$">
+#     Header set Cache-Control "public, max-age=7257600, must-revalidate"
+# </FilesMatch>
+    # ExpiresActive On
+    # ExpiresDefault "access plus 1 year"
+</IfModule>
+## EXPIRES CACHING ##
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/gif "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/pdf "access plus 1 month"
+ExpiresByType text/x-javascript "access plus 1 month"
+ExpiresByType application/x-shockwave-flash "access plus 1 month"
+ExpiresByType image/x-icon "access plus 1 year"
+ExpiresDefault "access plus 7 days"
+</IfModule>
+## EXPIRES CACHING ##
